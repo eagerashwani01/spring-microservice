@@ -42,7 +42,7 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public boolean updateReview(Long reviewId, Review review) {
-        Review reviewToUpdate = new Review();
+        Review reviewToUpdate = reviewRepository.findById(reviewId).orElse(null);
 
         if(review != null){
             reviewToUpdate.setCompanyId(review.getCompanyId());
