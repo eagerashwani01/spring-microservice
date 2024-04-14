@@ -2,8 +2,6 @@ package com.ashwani.jobms.job;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 public interface JobService {
     List<Job> allJobs();
 
