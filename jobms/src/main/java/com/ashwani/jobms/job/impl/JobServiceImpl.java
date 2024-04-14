@@ -13,12 +13,16 @@ import com.ashwani.jobms.job.JobRepository;
 import com.ashwani.jobms.job.JobService;
 import com.ashwani.jobms.job.dto.JobWithCompanyDto;
 import com.ashwani.jobms.job.external.Company;
+import com.ashwani.jobms.job.mapper.JobMapper;
 
 @Service
 public class JobServiceImpl implements JobService{
 
     @Autowired
     private JobRepository jobRepository;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public List<JobWithCompanyDto> allJobs() {
@@ -29,12 +33,9 @@ public class JobServiceImpl implements JobService{
 
     private JobWithCompanyDto convertToDto(Job job) {
         
-            JobWithCompanyDto jobWithCompanyDto = new JobWithCompanyDto();
-            jobWithCompanyDto.setJob(job);
-
-            RestTemplate restTemplate = new RestTemplate();
-            Company company = restTemplate.getForObject("http://localhost:8082/company/" + job.getCompanyId(), Company.class);
-            jobWithCompanyDto.setCompany(company);
+          
+            Company company = restTemplate.getForObject("http://COMPANYMS:8082/company/" + job.getCompanyId(), Company.class);
+            JobWithCompanyDto jobWithCompanyDto = JobMapper.settingJobAndCompany(job, company);
 
             return jobWithCompanyDto;
         
