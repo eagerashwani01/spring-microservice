@@ -3,7 +3,10 @@ package com.ashwani.jobms.job.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
+import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -23,19 +26,21 @@ public class JobServiceImpl implements JobService{
     @Override
     public List<JobWithCompanyDto> allJobs() {
         List<Job> jobs = jobRepository.findAll();
-        List<JobWithCompanyDto> jobWithCompanyDtos = new ArrayList<>(); 
-        RestTemplate restTemplate = new RestTemplate();
 
-        for (Job job : jobs) {
+        return jobs.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    private JobWithCompanyDto convertToDto(Job job) {
+        
             JobWithCompanyDto jobWithCompanyDto = new JobWithCompanyDto();
             jobWithCompanyDto.setJob(job);
 
+            RestTemplate restTemplate = new RestTemplate();
             Company company = restTemplate.getForObject("http://localhost:8082/company/" + job.getCompanyId(), Company.class);
             jobWithCompanyDto.setCompany(company);
 
-            jobWithCompanyDtos.add(jobWithCompanyDto);
-        }
-        return jobWithCompanyDtos;
+            return jobWithCompanyDto;
+        
     }
 
     @Override
