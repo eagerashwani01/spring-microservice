@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ServiceRegistryApplication",
+            "request": "launch",
+            "mainClass": "com.ashwani.serviceregistry.ServiceRegistryApplication",
+            "projectName": "service-registry"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-CompanymsApplication<companyms>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
