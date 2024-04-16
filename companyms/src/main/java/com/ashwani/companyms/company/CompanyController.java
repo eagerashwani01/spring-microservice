@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ashwani.companyms.company.dto.CompanyWithJobDto;
+
+import org.springframework.web.bind.annotation.RequestParam;
+
+
 @RestController
 @RequestMapping("company")
 public class CompanyController {
@@ -35,6 +40,11 @@ public class CompanyController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/{id}/jobs")
+    public ResponseEntity<CompanyWithJobDto> getCompanyAllJobs(@PathVariable Long id) {
+        return new ResponseEntity<>(companyService.getCompanyAllJobs(id), HttpStatus.OK);
+    }
+    
     @PostMapping
     public ResponseEntity<String> createCompany(@RequestBody Company company){
         companyService.createCompany(company);

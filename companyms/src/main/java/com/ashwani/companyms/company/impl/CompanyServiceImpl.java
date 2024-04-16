@@ -5,16 +5,22 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.ashwani.companyms.company.Company;
 import com.ashwani.companyms.company.CompanyRepository;
 import com.ashwani.companyms.company.CompanyService;
+import com.ashwani.companyms.company.dto.CompanyWithJobDto;
+import com.ashwani.companyms.company.external.Job;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
     
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public List<Company> getAll() {
@@ -24,6 +30,19 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Company getOne(Long id) {
         return companyRepository.findById(id).orElse(null);
+    }
+
+    public CompanyWithJobDto getCompanyAllJobs(Long id){
+        Job[] jobs = restTemplate.getForObject("http://JOBMS:8081/jobs/" + id + "/company", Job[].class);
+        Company company = getOne(id);
+        
+        CompanyWithJobDto companyWithJobDto = new CompanyWithJobDto();
+        companyWithJobDto.setJobs(jobs);
+        companyWithJobDto.setId(id);
+        companyWithJobDto.setLocation(company.getLocation());
+        companyWithJobDto.setName(company.getName());
+       
+        return companyWithJobDto;
     }
 
     @Override

@@ -76,4 +76,9 @@ public class JobServiceImpl implements JobService{
         }
         return false;
     }
+
+    @Override
+    public List<Job> getAllJobsForCompany(Long id) {
+        return jobRepository.findAllByCompanyId(id);
+    }
 }
