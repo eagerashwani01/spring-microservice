@@ -2,10 +2,10 @@ package com.ashwani.jobms.job;
 
 import java.util.List;
 
-import com.ashwani.jobms.job.dto.JobWithCompanyDto;
+import com.ashwani.jobms.job.dto.JobDTO;
 
 public interface JobService {
-    List<JobWithCompanyDto> allJobs();
+    List<JobDTO> allJobs();
 
     Job oneJob(Long id);
 

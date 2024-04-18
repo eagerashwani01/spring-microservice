@@ -11,7 +11,7 @@
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// This can be used to network with other containers or with the host.
-	// "forwardPorts": [5432],
+	"forwardPorts": [5432,9411],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "java -version",
@@ -24,7 +24,8 @@
 				"vmware.vscode-boot-dev-pack",
 				"postman.postman-for-vscode",		
 				"esbenp.prettier-vscode",
-				"ckolkman.vscode-postgres"
+				"ckolkman.vscode-postgres",
+				"cweijan.vscode-database-client2"
 			],
 			"settings": {
 				"java.server.launchMode": "Standard"

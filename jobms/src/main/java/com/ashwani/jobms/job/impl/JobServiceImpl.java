@@ -5,14 +5,18 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.ashwani.jobms.job.Job;
 import com.ashwani.jobms.job.JobRepository;
 import com.ashwani.jobms.job.JobService;
-import com.ashwani.jobms.job.dto.JobWithCompanyDto;
+import com.ashwani.jobms.job.dto.JobDTO;
 import com.ashwani.jobms.job.external.Company;
+import com.ashwani.jobms.job.external.Review;
 import com.ashwani.jobms.job.mapper.JobMapper;
 
 @Service
@@ -25,20 +29,20 @@ public class JobServiceImpl implements JobService{
     private RestTemplate restTemplate;
 
     @Override
-    public List<JobWithCompanyDto> allJobs() {
+    public List<JobDTO> allJobs() {
         List<Job> jobs = jobRepository.findAll();
 
         return jobs.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
-    private JobWithCompanyDto convertToDto(Job job) {
+    private JobDTO convertToDto(Job job) {   
+        Company company = restTemplate.getForObject("http://COMPANYMS:8082/company/" + job.getCompanyId(), Company.class);
+        ResponseEntity<List<Review>> reviewResponse = restTemplate.exchange("http://REVIEWMS:8084/reviews?companyId="  + job.getCompanyId(), HttpMethod.GET, null, new ParameterizedTypeReference<List<Review>>() { });
+        List<Review> reviews = reviewResponse.getBody();
         
-          
-            Company company = restTemplate.getForObject("http://COMPANYMS:8082/company/" + job.getCompanyId(), Company.class);
-            JobWithCompanyDto jobWithCompanyDto = JobMapper.settingJobAndCompany(job, company);
+        JobDTO jobWithCompanyDto = JobMapper.settingJobAndCompany(job, company, reviews);
 
-            return jobWithCompanyDto;
-        
+        return jobWithCompanyDto;  
     }
 
     @Override

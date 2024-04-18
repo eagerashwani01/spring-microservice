@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ashwani.jobms.job.dto.JobWithCompanyDto;
+import com.ashwani.jobms.job.dto.JobDTO;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -26,8 +26,8 @@ public class JobController {
     private JobService jobService;
 
     @GetMapping
-    public ResponseEntity<List<JobWithCompanyDto>> findAll(){
-        List<JobWithCompanyDto> jobs = jobService.allJobs();
+    public ResponseEntity<List<JobDTO>> findAll(){
+        List<JobDTO> jobs = jobService.allJobs();
         return new ResponseEntity<>(jobs, HttpStatus.OK);
     }
 
