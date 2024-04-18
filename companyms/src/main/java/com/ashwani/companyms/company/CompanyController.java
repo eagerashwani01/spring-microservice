@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ashwani.companyms.company.dto.CompanyWithJobDto;
 
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController

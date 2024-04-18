@@ -1,6 +1,5 @@
 package com.ashwani.companyms.company.dto;
 
-import java.util.List;
 
 import com.ashwani.companyms.company.external.Job;
 
