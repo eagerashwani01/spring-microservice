@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ashwani.jobms.job.dto.JobDTO;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController

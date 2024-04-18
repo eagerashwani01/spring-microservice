@@ -15,6 +15,7 @@ import com.ashwani.jobms.job.Job;
 import com.ashwani.jobms.job.JobRepository;
 import com.ashwani.jobms.job.JobService;
 import com.ashwani.jobms.job.client.CompanyClient;
+import com.ashwani.jobms.job.client.ReviewClient;
 import com.ashwani.jobms.job.dto.JobDTO;
 import com.ashwani.jobms.job.external.Company;
 import com.ashwani.jobms.job.external.Review;
@@ -32,6 +33,9 @@ public class JobServiceImpl implements JobService{
     @Autowired
     private CompanyClient companyClient;
 
+    @Autowired
+    private ReviewClient reviewClient;
+
     @Override
     public List<JobDTO> allJobs() {
         List<Job> jobs = jobRepository.findAll();
@@ -41,9 +45,9 @@ public class JobServiceImpl implements JobService{
 
     private JobDTO convertToDto(Job job) {   
         Company company = companyClient.getCompany(job.getCompanyId());
-        ResponseEntity<List<Review>> reviewResponse = restTemplate.exchange("http://REVIEWMS:8084/reviews?companyId="  + job.getCompanyId(), HttpMethod.GET, null, new ParameterizedTypeReference<List<Review>>() { });
-        List<Review> reviews = reviewResponse.getBody();
-        
+        // ResponseEntity<List<Review>> reviewResponse = restTemplate.exchange("http://REVIEWMS:8084/reviews?companyId="  + job.getCompanyId(), HttpMethod.GET, null, new ParameterizedTypeReference<List<Review>>() { });
+        // List<Review> reviews = reviewResponse.getBody();
+        List<Review> reviews = reviewClient.getAllReview(job.getCompanyId());
         JobDTO jobWithCompanyDto = JobMapper.settingJobAndCompany(job, company, reviews);
 
         return jobWithCompanyDto;  

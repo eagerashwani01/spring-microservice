@@ -12,5 +12,5 @@ import com.ashwani.jobms.job.external.Review;
 public interface ReviewClient {
     
     @GetMapping("/reviews")
-    List<Review> getAllReview(@RequestParam Long companyId);
+    List<Review> getAllReview(@RequestParam("companyId") Long companyId);
 }
