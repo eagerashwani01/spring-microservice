@@ -2,6 +2,9 @@ package com.ashwani.jobms.job;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +22,13 @@ import com.ashwani.jobms.job.dto.JobDTO;
 
 @RestController
 @RequestMapping("/jobs")
+@Tag(name = "Job Controller is here")
 public class JobController {
 
     @Autowired
     private JobService jobService;
 
+    @Operation(summary = "GET all jobs", description = "It returns all jobs from database")
     @GetMapping
     public ResponseEntity<List<JobDTO>> findAll(){
         List<JobDTO> jobs = jobService.allJobs();
