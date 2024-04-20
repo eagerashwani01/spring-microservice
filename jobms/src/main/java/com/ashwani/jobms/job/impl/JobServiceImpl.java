@@ -45,8 +45,8 @@ public class JobServiceImpl implements JobService{
 
     private JobDTO convertToDto(Job job) {   
         Company company = companyClient.getCompany(job.getCompanyId());
-        // ResponseEntity<List<Review>> reviewResponse = restTemplate.exchange("http://REVIEWMS:8084/reviews?companyId="  + job.getCompanyId(), HttpMethod.GET, null, new ParameterizedTypeReference<List<Review>>() { });
-        // List<Review> reviews = reviewResponse.getBody();
+//         ResponseEntity<List<Review>> reviewResponse = restTemplate.exchange("http://REVIEWMS:8084/reviews?companyId="  + job.getCompanyId(), HttpMethod.GET, null, new ParameterizedTypeReference<List<Review>>() { });
+//         List<Review> reviews = reviewResponse.getBody();
         List<Review> reviews = reviewClient.getAllReview(job.getCompanyId());
         JobDTO jobWithCompanyDto = JobMapper.settingJobAndCompany(job, company, reviews);
 
