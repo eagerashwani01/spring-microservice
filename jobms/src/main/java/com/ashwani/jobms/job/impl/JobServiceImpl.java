@@ -1,5 +1,6 @@
 package com.ashwani.jobms.job.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -39,11 +40,17 @@ public class JobServiceImpl implements JobService{
     private ReviewClient reviewClient;
 
     @Override
-    @CircuitBreaker(name = "companyBreaker")
+    @CircuitBreaker(name = "companyBreaker", fallbackMethod = "companyBreakerFallback")
     public List<JobDTO> allJobs() {
         List<Job> jobs = jobRepository.findAll();
 
         return jobs.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    public List<String> companyBreakerFallback(Exception e){
+        List<String> list = new ArrayList<>();
+        list.add("Company Service is Down");
+        return list;
     }
 
     private JobDTO convertToDto(Job job) {   
