@@ -21,6 +21,8 @@ import com.ashwani.jobms.job.external.Company;
 import com.ashwani.jobms.job.external.Review;
 import com.ashwani.jobms.job.mapper.JobMapper;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 @Service
 public class JobServiceImpl implements JobService{
 
@@ -37,6 +39,7 @@ public class JobServiceImpl implements JobService{
     private ReviewClient reviewClient;
 
     @Override
+    @CircuitBreaker(name = "companyBreaker")
     public List<JobDTO> allJobs() {
         List<Job> jobs = jobRepository.findAll();
 
